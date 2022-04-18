@@ -1,0 +1,31 @@
+/** @param {NS} ns */
+export async function main(ns) {
+    ns.tprint("\n",
+    "Augments that increases all experience gain rate:\n",
+    "┌────────────────────────┬───────┬────────────────────────┐\n",
+    "| Name                     | Bonus | Factions:          |\n",
+    "| Neurotrainer I           | 10%   | CyberSec               |\n",
+    "| Neurotrainer II          | 15%   | BitRunners,NiteSec|\n",
+    "| Neurotrainer III         | 20%   | Four Sigma, NWO|\n",
+    "| Power Recirculation Core | 10%   | NWO, Tetrads, The Dark Army, The Syndicate|\n",
+    "| Xanipher                 | 15%   | NWO|\n",
+    "└────────────────────────┴───────┴────────────────────────┘\n",
+    "Augments that increases hacking experience gain rate:\n",
+    "┌────────────────────────────────┬────┬────────────────────────┐\n",
+    "| Name                             | Bonus | Factions:          |\n",
+    "| Artificial Synaptic Potentiation | 5% | NiteSec, The Black Hand|\n",
+    "| BitRunners Neurolink             | 20% | BitRunners|\n",
+    "| CRTX42-AA Gene Modification      | 15% | NiteSec|\n",
+    "| Embedded Netburner Module Core Implant | 7% | BitRunners, Blade Industries, ECorp, Fulcrum Secret Technologies, MegaCorp, NWO, The Black Hand|\n",
+    "| Embedded Netburner Module Core V2 Upgrade | 15% | BitRunners, Blade Industries, ECorp, Fulcrum Secret Technologies, KuaiGong International, MegaCorp, NWO, OmniTek Incorporated|\n",
+    "| Embedded Netburner Module Core V3 Upgrade | 25% | Daedalus, ECorp, Fulcrum Secret Technologies, Illuminati, MegaCorp, NWO, The Covenant|\n",
+    "| Enhanced Myelin Sheathing        | 10% | BitRunners, Fulcrum Secret Technologies, The Black Hand|\n",
+    "| Neural Accelerator               | 15% | BitRunners|\n",
+    "| Neural-Retention Enhancement     | 25% | NiteSec|\n",
+    "| Neuralstimulator                 | 12% | Aevum, Bachman & Associates, Chongqing, Clarke Incorporated, Four Sigma, Ishima, New Tokyo, Sector-12, The Black Hand, Volhaven|\n",
+    "| Neuregen Gene Modification       | 40% | Chongqing|\n",
+    "| Neuronal Densification           | 10% | Clarke Incorporated|\n",
+    "| OmniTek InfoLoad                 | 25% | OmniTek Incorporated|\n",
+    "└────────────────────────────────┴────┴────────────────────────┘\n"
+    );
+}

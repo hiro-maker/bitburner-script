@@ -1,0 +1,105 @@
+while (true) {
+	var hackinglevel = getHackingLevel()
+	var target = getTargetServer(getHostname(), hackinglevel)
+	if (target != null) {
+		print(target)
+		startNuke(target)
+		runScript(target)
+	}
+//	sleep(60 * 1000)
+}
+
+function getTargetServer(host, hackinglevel) {
+	var servers = scan(host)
+	var result
+	for (var index in servers) {
+		if (index == 0) {
+			continue
+		}
+		print("--start--")
+		var target = servers[index]
+		var targetRequiredLevel = getServerRequiredHackingLevel(target)
+		print(target)
+		if (hasRootAccess(target)) {
+			print("hasRoot")
+		} else if (targetRequiredLevel > hackinglevel) {
+			print("low hackinglevel")
+			if (targetRequiredLevel - hackinglevel > 100) {
+				print("low hackinglevel over")
+				continue
+			}
+		} else if (getServerNumPortsRequired(target) > countPortTools()) {
+			print("low port tools")
+		} else {
+			print("hit target !!!")
+			result = target
+		}
+		if (result == null) {
+			result = getTargetServer(target, hackinglevel)
+		}
+		print("--end--")
+	}
+	return result
+}
+
+function countPortTools() {
+	var result = 0
+	if (fileExists("BruteSSH.exe", "home")) {
+		++result
+	}
+	if (fileExists("FTPCrack.exe", "home")) {
+		++result
+	}
+	if (fileExists("relaySMTP.exe", "home")) {
+		++result
+	}
+	if (fileExists("HTTPWorm.exe", "home")) {
+		++result
+	}
+	if (fileExists("SQLInject.exe", "home")) {
+		++result
+	}
+	return result
+}
+
+function startNuke(target) {
+	// ready nuke.
+	if (fileExists("BruteSSH.exe", "home")) {
+		brutessh(target);
+	}
+	if (fileExists("FTPCrack.exe", "home")) {
+		ftpcrack(target)
+	}
+	if (fileExists("relaySMTP.exe", "home")) {
+		relaysmtp(target)
+	}
+	if (fileExists("HTTPWorm.exe", "home")) {
+		httpworm(target)
+	}
+	if (fileExists("SQLInject.exe", "home")) {
+		sqlinject(target)
+	}
+	nuke(target);
+	//installBackdoor(target)
+}
+
+function runScript(target) {
+	var script1 = "early-hack-template.script"
+	var script2 = "hackloop.script"
+
+	// scp script
+	scp(script1, target)
+	scp(script2, target)
+
+	// run script
+	exec(script2, target)
+
+	var maxRam = getServerMaxRam(target)
+	var script1Ram = getScriptRam(script1)
+
+	var id = 0;
+	while (maxRam - getServerUsedRam(target) >= script1Ram) {
+		exec(script1, target, 1, id)
+		++id
+	}
+}
