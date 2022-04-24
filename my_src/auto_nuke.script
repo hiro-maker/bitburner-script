@@ -5,8 +5,9 @@ while (true) {
 		print(target)
 		startNuke(target)
 		runScript(target)
+	} else {
+		sleep(60 * 1000)
 	}
-//	sleep(60 * 1000)
 }
 
 function getTargetServer(host, hackinglevel) {
