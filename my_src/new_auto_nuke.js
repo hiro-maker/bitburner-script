@@ -31,18 +31,33 @@ export let main = ns => {
             backdoorInstalled: true // No way of knowing without ns.getServer
         } */
     }
+    let moneyFormat = (labelValue) => {
+        // Nine Zeroes for Billions
+        let result = Math.abs(labelValue) >= 1.0e+9
+            ? (Math.abs(labelValue) / 1.0e+9).toFixed() + "B"
+            // Six Zeroes for Millions 
+            : Math.abs(labelValue) >= 1.0e+6
+                ? (Math.abs(labelValue) / 1.0e+6).toFixed() + "M"
+                // Three Zeroes for Thousands
+                : Math.abs(labelValue) >= 1.0e+3
+                    ? (Math.abs(labelValue) / 1.0e+3).toFixed() + "K"
+                    : Math.abs(labelValue).toFixed();
+        return result
+    }
     let s = ["home"],
         p = [""],
         r = { home: "home" },
         myHack = ns.getHackingLevel(),
         fName = x => {
             let server = serverInfo(x); // Costs 2 GB. If you can't don't need backdoor links, uncomment the alternate implementations below
+            let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
             let reqHack = server.requiredHackingSkill; // ns.getServerRequiredHackingLevel(x);
             let numPort = server.numOpenPortsRequired; // ns.numOpenPortsRequired(x);
             let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
             let shouldBackdoor = !server?.backdoorInstalled && reqHack <= myHack && x != 'home' && rooted && !server.purchasedByPlayer;
             return `<span class="w" id="${x}">
                 <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(${reqHack})</span>
+                <span>${moneyAvailable}</span>
                 ${(shouldBackdoor ? '<span class="backdoor">[<a>backdoor</a>]</span>' : '')}
                 <span>(${numPort})</span>
             </span>`;
