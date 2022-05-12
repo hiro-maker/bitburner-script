@@ -1,3 +1,4 @@
+let factionServers = ["CSEC", "avmnite-02h", "I.I.I.I", "run4theh111z", "w0r1d_d43m0n"];
 let css = `<style id="scanCSS">
         .w  {white-space:nowrap}
         .sc {white-space:pre; color:#ccc; font:14px monospace; line-height: 16px; }
@@ -50,16 +51,19 @@ export let main = ns => {
         myHack = ns.getHackingLevel(),
         fName = x => {
             let server = serverInfo(x); // Costs 2 GB. If you can't don't need backdoor links, uncomment the alternate implementations below
-            let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
+            let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
             let reqHack = server.requiredHackingSkill; // ns.getServerRequiredHackingLevel(x);
             let numPort = server.numOpenPortsRequired; // ns.numOpenPortsRequired(x);
-            let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
+            let nowSecurityLevel = server.hackDifficulty; // ns.getServerSecurityLevel(x);
+            let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
             let shouldBackdoor = !server?.backdoorInstalled && reqHack <= myHack && x != 'home' && rooted && !server.purchasedByPlayer;
-            return `<span class="w" id="${x}">
-                <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(${reqHack})</span>
-                <span>${moneyAvailable}</span>
+            return `<span class="w" id="${x}">` +
+                `<a class="s${factionServers.includes(x) ? " f" : ""}${rooted ? " r" : ""}">${x}</a>
+                <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(Hack:${reqHack})</span>
+                <span>Port:${numPort}</span>
+                <span>Security:${nowSecurityLevel}</span>
+                <span>Money:${moneyAvailable}</span>
                 ${(shouldBackdoor ? '<span class="backdoor">[<a>backdoor</a>]</span>' : '')}
-                <span>(${numPort})</span>
             </span>`;
         };
     let addSc = (x = s[0], p1 = ["\n"], o = p1.join("") + fName(x)) => {
