@@ -14,7 +14,7 @@ function getTargetServer(host, hackinglevel) {
 	var servers = scan(host)
 	var result
 	for (var index in servers) {
-		if (index == 0) {
+		if (index == 0 && host != "home") {
 			continue
 		}
 		print("--start--")

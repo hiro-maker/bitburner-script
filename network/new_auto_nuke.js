@@ -54,15 +54,17 @@ export let main = ns => {
             let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
             let reqHack = server.requiredHackingSkill; // ns.getServerRequiredHackingLevel(x);
             let numPort = server.numOpenPortsRequired; // ns.numOpenPortsRequired(x);
-            let nowSecurityLevel = server.hackDifficulty; // ns.getServerSecurityLevel(x);
-            let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
+            // let nowSecurityLevel = server.hackDifficulty; // ns.getServerSecurityLevel(x);
+            // let hackMoney = ns.hackAnalyze(x)
+            let hackChance = ns.formulas.hacking.hackChance(server, ns.getPlayer())
+            let hackTime = ns.formulas.hacking.hackTime(server, ns.getPlayer())
+            // let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
             let shouldBackdoor = !server?.backdoorInstalled && reqHack <= myHack && x != 'home' && rooted && !server.purchasedByPlayer;
             return `<span class="w" id="${x}">` +
                 `<a class="s${factionServers.includes(x) ? " f" : ""}${rooted ? " r" : ""}">${x}</a>
                 <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(Hack:${reqHack})</span>
                 <span>Port:${numPort}</span>
-                <span>Security:${nowSecurityLevel}</span>
-                <span>Money:${moneyAvailable}</span>
+                <span>HackRate:${Math.floor(server.moneyAvailable / hackTime / hackChance)}</span>
                 ${(shouldBackdoor ? '<span class="backdoor">[<a>backdoor</a>]</span>' : '')}
             </span>`;
         };
