@@ -59,12 +59,14 @@ export let main = ns => {
             let hackChance = ns.formulas.hacking.hackChance(server, ns.getPlayer())
             let hackTime = ns.formulas.hacking.hackTime(server, ns.getPlayer())
             // let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
+            let maxRam = server.maxRam
             let shouldBackdoor = !server?.backdoorInstalled && reqHack <= myHack && x != 'home' && rooted && !server.purchasedByPlayer;
             return `<span class="w" id="${x}">` +
                 `<a class="s${factionServers.includes(x) ? " f" : ""}${rooted ? " r" : ""}">${x}</a>
                 <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(Hack:${reqHack})</span>
                 <span>Port:${numPort}</span>
-                <span>HackRate:${Math.floor(server.moneyAvailable / hackTime / hackChance)}</span>
+                <span>MaxRam:${maxRam}GB</span>
+                <span>HackRate:${Math.floor(server.moneyAvailable / hackTime * hackChance)}</span>
                 ${(shouldBackdoor ? '<span class="backdoor">[<a>backdoor</a>]</span>' : '')}
             </span>`;
         };
