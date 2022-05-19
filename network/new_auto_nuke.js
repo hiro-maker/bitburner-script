@@ -32,6 +32,19 @@ export let main = ns => {
             backdoorInstalled: true // No way of knowing without ns.getServer
         } */
     }
+    let moneyFormat = (labelValue) => {
+        // Nine Zeroes for Billions
+        let result = Math.abs(labelValue) >= 1.0e+9
+            ? (Math.abs(labelValue) / 1.0e+9).toFixed() + "B"
+            // Six Zeroes for Millions 
+            : Math.abs(labelValue) >= 1.0e+6
+                ? (Math.abs(labelValue) / 1.0e+6).toFixed() + "M"
+                // Three Zeroes for Thousands
+                : Math.abs(labelValue) >= 1.0e+3
+                    ? (Math.abs(labelValue) / 1.0e+3).toFixed() + "K"
+                    : Math.abs(labelValue).toFixed();
+        return result
+    }
     let s = ["home"],
         p = [""],
         r = { home: "home" },
@@ -47,12 +60,14 @@ export let main = ns => {
             let hackTime = ns.formulas.hacking.hackTime(server, ns.getPlayer())
             let maxRam = server.maxRam
             let rate = Math.floor(server.moneyAvailable / hackTime * hackChance)
+            let maxMoney = server.moneyMax
             return `<span class="w" id="${x}">` +
                 `<a class="s${factionServers.includes(x) ? " f" : ""}${rooted ? " r" : ""}">${x}</a>
                 <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(Hack:${reqHack})</span>
                 <span>Port:${numPort}</span>
                 <span>${rate == 0 ? '' : 'MaxRam:' + maxRam +'GB'}</span>
                 <span>${rate == 0 ? '' : 'HackRate:' + rate}</span>
+                <span>${rate == 0 ? '' : 'MaxMoney:' + moneyFormat(maxMoney)}</span>
             </span>`;
         };
     let addSc = (x = s[0], p1 = ["\n"], o = p1.join("") + fName(x)) => {
