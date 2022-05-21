@@ -2,18 +2,19 @@ const crimes = ["shoplift", "rob store", "mug", "larceny", "deal drugs", "bond f
 /** @param {NS} ns */
 export async function main(ns) {
     const singularity = ns.singularity
-    var crimeName = ns.args[0]
-    if (crimeName === undefined) {
-        crimeName = crimes[0]
-        for (const item of crimes) {
-            if (singularity.getCrimeChance(crimeName) > singularity.getCrimeChance(item)) {
-                break
-            }
-            crimeName = item
-        }
-    }
-
+    var crimeName = crimes[0]
     while (true) {
+        if (ns.args[0] === undefined) {
+            for (const item of crimes) {
+                if (singularity.getCrimeChance(crimeName) != 1 || singularity.getCrimeChance(item) < 0.85) {
+                    break
+                }
+                crimeName = item
+            }
+        } else {
+            crimeName = ns.args[0]
+        }
+
         const crimeTime = singularity.commitCrime(crimeName)
         await ns.sleep(crimeTime + 3 * 1000)
     }
