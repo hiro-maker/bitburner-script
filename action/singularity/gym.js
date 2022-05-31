@@ -1,36 +1,39 @@
 const gyms = ["Powerhouse Gym"]
-const stats = ["Train Strength", "Train Defense", "Train Dexterity", "Train Agility"]
-const status = ["stay", "doing", "finish"]
+const stats = ["strength", "defense", "dexterity", "agility"]
 /** @param {NS} ns */
 export async function main(ns) {
     const singularity = ns.singularity
-    const statuses = [status[0], status[0], status[0], status[0]]
-
+    const target = ((args0) => args0 !== undefined ? args0 : 100)(ns.args[0])
+    var status = stats[0]
     while (true) {
         const player = ns.getPlayer()
-        if (player.strength < 100) {
+        if (player.strength < target) {
             singularity.gymWorkout(gyms[0], stats[0], true)
-            strengthStatus = statuses[0][1]
         } else {
-            strengthStatus = statuses[0][2]
+            status = stats[1]
         }
-        if (player.defense < 100) {
-            singularity.gymWorkout(gyms[0], stats[1], true)
-            strengthStatus = statuses[1][1]
-        } else {
-            defenseStatus = statuses[1][2]
+        if (status == stats[1]) {
+            if(player.defense < target) {
+                singularity.gymWorkout(gyms[0], stats[1], true)
+            } else {
+                status = stats[2]
+            }
         }
-        if (player.dexterity < 100) {
-            singularity.gymWorkout(gyms[0], stats[2], true)
-            strengthStatus = statuses[2][1]
-        } else {
-            dexterityStatus = statuses[2][2]
+        if (status == stats[2]){
+            if(player.dexterity < target) {
+                singularity.gymWorkout(gyms[0], stats[2], true)
+            } else {
+                status = stats[3]
+            }
         }
-        if (player.agility < 100) {
-            singularity.gymWorkout(gyms[0], stats[3], true)
-            strengthStatus = statuses[3][1]
-        } else {
-            agilityStatus = statuses[3][2]
+        if (status == stats[3]) {
+            if (player.agility < target) {
+                singularity.gymWorkout(gyms[0], stats[3], true)
+            } else {
+                singularity.stopAction()
+                break
+            }
         }
+        await ns.sleep(60 * 1000)
     }
 }
