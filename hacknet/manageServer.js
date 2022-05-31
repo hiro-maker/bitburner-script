@@ -1,33 +1,38 @@
 /** @param {NS} ns **/
 export async function main(ns) {
-	const upgradeName = ((args0) => args0 !== undefined ? args0 :  "Sell for Money")(ns.args[0])
+	const hacknet = ns.hacknet
 	while (true) {
-		let numNodes = await ns.hacknet.numNodes();
-
-		if (ns.hacknet.numHashes() > ns.hacknet.hashCost(upgradeName)) {
-		   ns.hacknet.spendHashes(upgradeName);
+		let numNodes = await hacknet.numNodes();
+		for (const index in ns.args) {
+			const upgradeName = ns.args[index]
+			if (hacknet.numHashes() > hacknet.hashCost(upgradeName)) {
+				hacknet.spendHashes(upgradeName);
+			}
 		}
-
 		for (var i = 0; i < numNodes; i++) {
-			if (await ns.getPlayer().money > await ns.hacknet.getLevelUpgradeCost(i, 10)) {
-				await ns.hacknet.upgradeLevel(i, 10);
+			if (hacknet.getNodeStats(i).level <= 30
+				&& await ns.getPlayer().money > await hacknet.getLevelUpgradeCost(i, 1)) {
+				await hacknet.upgradeLevel(i, 1);
+				continue;
+			} else if (await ns.getPlayer().money > await hacknet.getLevelUpgradeCost(i, 10)) {
+				await hacknet.upgradeLevel(i, 10);
 				continue;
 			}
-			if (await ns.getPlayer().money > await ns.hacknet.getRamUpgradeCost(i, 1)) {
-				await ns.hacknet.upgradeRam(i, 1);
+			if (await ns.getPlayer().money > await hacknet.getRamUpgradeCost(i, 1)) {
+				await hacknet.upgradeRam(i, 1);
 				continue;
 			}
-			if (await ns.getPlayer().money > await ns.hacknet.getCoreUpgradeCost(i, 1)) {
-				await ns.hacknet.upgradeCore(i, 1);
+			if (await ns.getPlayer().money > await hacknet.getCoreUpgradeCost(i, 1)) {
+				await hacknet.upgradeCore(i, 1);
 				continue;
 			}
-			if (await ns.getPlayer().money > await ns.hacknet.getCacheUpgradeCost(i, 1)) {
-				await ns.hacknet.upgradeCache(i, 1);
+			if (await ns.getPlayer().money > await hacknet.getCacheUpgradeCost(i, 1)) {
+				await hacknet.upgradeCache(i, 1);
 				continue;
 			}
 		}
-		if (numNodes < 20 && await ns.getPlayer().money > await ns.hacknet.getPurchaseNodeCost()) {
-			await ns.hacknet.purchaseNode();
+		if (numNodes < 20 && await ns.getPlayer().money > await hacknet.getPurchaseNodeCost()) {
+			await hacknet.purchaseNode();
 		}
 		await ns.sleep(1000);
 	}
