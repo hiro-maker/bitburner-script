@@ -16,6 +16,6 @@ export async function main(ns) {
             name = contracts[1] // Bounty Hunter
         }
         bladeburner.startAction(type, name)
-        ns.sleep(200)
+        await ns.sleep(200)
     }
 }
