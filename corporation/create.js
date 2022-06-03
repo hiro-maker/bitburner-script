@@ -13,32 +13,39 @@ export async function main(ns) {
 
      // Expand "Agriculture".
      const agriculture = "Agriculture"
-     corp.expandIndustry(agriculture, agriculture)
+     // corp.expandIndustry(agriculture, agriculture)
 
      // Unlock "Smart Supply"
-     corp.unlockUpgrade("Smart Supply")
+     const smartSupply = "Smart Supply"
+     if (!corp.hasUnlockUpgrade(smartSupply)) {
+          corp.unlockUpgrade("Smart Supply")
+     }
 
      // Expand All City.
-     for (cityName in cities) {
-          corp.expandCity(agriculture, cityName)
-
+     for (const index in cities) {
+          const cityName = cities[index]
+          if (corp.getDivision(agriculture).cities.indexOf(cityName) == -1) {
+               await corp.expandCity(agriculture, cityName)
+          }
           // Applay "Smart Supply"(WarehouseAPI)
-          corp.setSmartSupply(agriculture, cityName, true)
+          await corp.setSmartSupply(agriculture, cityName, true)
 
           // Assign members(OfficeAPI)
           const members = ["Operations", "Engineer", "Business"]
           corp.upgradeOfficeSize(agriculture, cityName, 3)
-          members.forEach(function (element) {
-               const employeeName = corp.hireEmployee(agriculture, cityName).name
-               corp.assignJob(agriculture, cityName, employeeName, element)
+          await members.forEach(async function (element) {
+               const employee = await corp.hireEmployee(agriculture, cityName);
+               if (employee !== undefined)  {
+                    await corp.assignJob(agriculture, cityName, employee.name, element)
+               }
           });
 
           // Upgrade each office’s Storage to 300(WarehouseAPI)
-          corp.upgradeWarehouse(agriculture, cityName, 3)
+          await corp.upgradeWarehouse(agriculture, cityName, 3)
 
           // Selling material(WarehouseAPI)
-          corp.sellMaterial(divisionName, cityName, "Plants", "MAX", "MP")
-          corp.sellMaterial(divisionName, cityName, "Food", "MAX", "MP")
+          await corp.sellMaterial(agriculture, cityName, "Plants", "MAX", "MP")
+          await corp.sellMaterial(agriculture, cityName, "Food", "MAX", "MP")
      }
      corp.hireAdVert(agriculture)
 
