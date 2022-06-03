@@ -26,19 +26,19 @@ export async function main(ns) {
           const cityName = cities[index]
           if (corp.getDivision(agriculture).cities.indexOf(cityName) == -1) {
                await corp.expandCity(agriculture, cityName)
+               await corp.purchaseWarehouse(agriculture, cityName)
           }
           // Applay "Smart Supply"(WarehouseAPI)
           await corp.setSmartSupply(agriculture, cityName, true)
 
           // Assign members(OfficeAPI)
           const members = ["Operations", "Engineer", "Business"]
-          corp.upgradeOfficeSize(agriculture, cityName, 3)
-          await members.forEach(async function (element) {
+          for (const member of members) {
                const employee = await corp.hireEmployee(agriculture, cityName);
                if (employee !== undefined)  {
-                    await corp.assignJob(agriculture, cityName, employee.name, element)
+                    await corp.assignJob(agriculture, cityName, employee.name, member)
                }
-          });
+          }
 
           // Upgrade each office’s Storage to 300(WarehouseAPI)
           await corp.upgradeWarehouse(agriculture, cityName, 3)
@@ -51,7 +51,7 @@ export async function main(ns) {
 
      // Grow Corp
      const upgrads = ["FocusWires", "Neural Accelerators", "Speech Processor Implants", "Nuoptimal Nootropic Injector Implants", "Smart Factories"]
-     for (upgrad in upgrads) {
+     for (const upgrad of upgrads) {
           for (let i = 0; i < 2; i++) {
                corp.levelUpgrade(upgrad)
           }
