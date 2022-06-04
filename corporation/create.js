@@ -1,4 +1,6 @@
 const cities = ["Sector-12", "Aevum", "Volhaven", "Chongqing", "New Tokyo", "Ishima"];
+const materials = ["Hardware", "AI Cores", "Real Estate"];
+const agriculture = "Agriculture";
 
 /** @param {NS} ns **/
 export async function main(ns) {
@@ -9,73 +11,111 @@ export async function main(ns) {
 
      const corp = ns.corporation
      // Create Corp.
-     corp.createCorporation("MyCorp")
+     // corp.createCorporation("MyCorp")
 
-     // Expand "Agriculture".
-     const agriculture = "Agriculture"
-     // corp.expandIndustry(agriculture, agriculture)
+     // // Expand "Agriculture".
+     // // corp.expandIndustry(agriculture, agriculture)
 
      // Unlock "Smart Supply"
-     const smartSupply = "Smart Supply"
-     if (!corp.hasUnlockUpgrade(smartSupply)) {
-          corp.unlockUpgrade("Smart Supply")
-     }
+     // const smartSupply = "Smart Supply"
+     // if (!corp.hasUnlockUpgrade(smartSupply)) {
+     //      await corp.unlockUpgrade("Smart Supply")
+     // }
 
-     // Expand All City.
-     for (const index in cities) {
-          const cityName = cities[index]
-          if (corp.getDivision(agriculture).cities.indexOf(cityName) == -1) {
-               await corp.expandCity(agriculture, cityName)
-               await corp.purchaseWarehouse(agriculture, cityName)
-          }
-          // Applay "Smart Supply"(WarehouseAPI)
-          await corp.setSmartSupply(agriculture, cityName, true)
+     // // Expand All City.
+     // for (const index in cities) {
+     //      const cityName = cities[index]
+     //      if (corp.getDivision(agriculture).cities.indexOf(cityName) == -1) {
+     //           await corp.expandCity(agriculture, cityName)
+     //           await corp.purchaseWarehouse(agriculture, cityName)
+     //      }
+     //      // Applay "Smart Supply"(WarehouseAPI)
+     //      await corp.setSmartSupply(agriculture, cityName, true)
 
-          // Assign members(OfficeAPI)
-          const members = ["Operations", "Engineer", "Business"]
-          for (const member of members) {
-               const employee = await corp.hireEmployee(agriculture, cityName);
-               if (employee !== undefined)  {
-                    await corp.assignJob(agriculture, cityName, employee.name, member)
-               }
-          }
+     //      // Assign members(OfficeAPI)
+     //      const members = ["Operations", "Engineer", "Business"]
+     //      for (const member of members) {
+     //           const employee = await corp.hireEmployee(agriculture, cityName);
+     //           if (employee !== undefined) {
+     //                await corp.assignJob(agriculture, cityName, employee.name, member)
+     //           }
+     //      }
 
-          // Upgrade each office’s Storage to 300(WarehouseAPI)
-          await corp.upgradeWarehouse(agriculture, cityName, 3)
+     //      // Upgrade each office’s Storage to 300(WarehouseAPI)
+     //      await corp.upgradeWarehouse(agriculture, cityName, 2)
 
-          // Selling material(WarehouseAPI)
-          await corp.sellMaterial(agriculture, cityName, "Plants", "MAX", "MP")
-          await corp.sellMaterial(agriculture, cityName, "Food", "MAX", "MP")
-     }
-     corp.hireAdVert(agriculture)
+     //      // Selling material(WarehouseAPI)
+     //      await corp.sellMaterial(agriculture, cityName, "Plants", "MAX", "MP")
+     //      await corp.sellMaterial(agriculture, cityName, "Food", "MAX", "MP")
+     // }
+     // corp.hireAdVert(agriculture)
 
-     // Grow Corp
-     const upgrads = ["FocusWires", "Neural Accelerators", "Speech Processor Implants", "Nuoptimal Nootropic Injector Implants", "Smart Factories"]
-     for (const upgrad of upgrads) {
-          for (let i = 0; i < 2; i++) {
-               corp.levelUpgrade(upgrad)
-          }
-     }
+     // // Grow Corp
+     // const upgrads = ["FocusWires", "Neural Accelerators", "Speech Processor Implants", "Nuoptimal Nootropic Injector Implants", "Smart Factories"]
+     // for (const upgrad of upgrads) {
+     //      for (let i = 0; i < 2; i++) {
+     //           corp.levelUpgrade(upgrad)
+     //      }
+     // }
+
+     // // first buy material
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           switch (material) {
+     //                case "Hardware":
+     //                     corp.buyMaterial(agriculture, cityName, material, 12.5)
+     //                     break
+     //                case "AI Cores":
+     //                     corp.buyMaterial(agriculture, cityName, material, 7.5)
+     //                     break
+     //                case "Real Estate":
+     //                     corp.buyMaterial(agriculture, cityName, material, 2700)
+     //                     break
+     //           }
+     //      }
+     // }
+     // await ns.sleep(1000);
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           switch (material) {
+     //                case "Hardware":
+     //                     corp.buyMaterial(agriculture, cityName, material, 0)
+     //                     break
+     //                case "AI Cores":
+     //                     corp.buyMaterial(agriculture, cityName, material, 0)
+     //                     break
+     //                case "Real Estate":
+     //                     corp.buyMaterial(agriculture, cityName, material, 0)
+     //                     break
+     //           }
+     //      }
+     // }
+
+     // // check employees
+     // var canPhase2 = false
+     // while (true) {
+     //      for (const cityName of cities) {
+     //           const office = corp.getOffice(agriculture, cityName)
+     //           canPhase2 = 100 <= office.maxMor
+     //           if (canPhase2) {
+     //                canPhase2 = 99 < office.maxHap
+     //           }
+     //           if (canPhase2) {
+     //                canPhase2 = 99 < office.maxEne
+     //           }
+     //      }
+     //      if (canPhase2) {
+     //           break
+     //      } else {
+     //           await ns.sleep(5 * 1000)
+     //      }
+     // }
+
+     // Find Investors
+     corp.acceptInvestmentOffer()
+
+
      /*
-Now we want to get some more materials to help make products and run the business better. You’ve noticed by now that the list values change on a timed basis, corresponding to the Current state of the market cycle shown at the top of the list. We need to be ready to make a change within one tick, but it’s long enough that it shouldn’t be hard (10s). The general process is:
-
-Click Buy (0.000)
-Enter the number of items to purchase per second
-Click Confirm
-Watch the item amount on the left (e.g., Material:  AMOUNT (RATE)) and the moment it changes to our desired value, just click the button to buy again and click Clear Purchase
-We’re going to buy 3 things for each office:
-
-Hardware at 12.5/s for one tick to 125 total
-AI Cores at 7.5/s for one tick to 75 total
-Real Estate at 2.7k/s (that’s twenty-seven hundred, 2 700, 2.7×103) for one tick to 27k total
-When they start, employee Morale, Happiness, and Energy will be fair-to-middlin’, but they’ll improve with time. You should wait for the values to hit the following before proceeding:
-
-Avg Employee Morale: 100.000
-Avg Employee Happiness: 99.998 (or higher)
-Avg Employee Energy: 99.998 (or higher)
-Workers should be allowed to reach these values whenever they’re hired, but note that this requires the company to be earning income. This will make sure they’re contributing their best work, and is a good way to squeeze out a couple extra bucks. This will be relevant very soon…
-
-Now the Profit ought to be humming along, rocking steady at about $1.5m/s, and your corporation is looking nice; I bet there’s someone out there who’ll want to invest! Head back to the main tab and Find Investors. You ought to catch a bid of around $210b or so. Cool.
 
 Now you want to Upgrade the size of each office and increase the staff to 9 employees. You should end up with:
 
