@@ -24,7 +24,7 @@ function findLargestPrimeFactor(num) {
 }
 
 // 別解
-findLargestDivisor(n, currentLargestDivisor) {
+function findLargestDivisor(n, currentLargestDivisor) {
     for (let i = currentLargestDivisor; i < n; ++i) {
         if (n % i === 0) {
             return i;
