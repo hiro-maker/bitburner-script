@@ -45,16 +45,16 @@ function getTargetAction(bladeburner) {
     // Chance
     const chances = bladeburner.getActionEstimatedSuccessChance(type, name)
     if (0.85 > chances[0]) {
-        // city chaos
-        if (50 < bladeburner.getCityChaos(bladeburner.getCity())) {
+        if (chances[0] != chances[1]) {
+            return generals[0]
+        } else if (50 < bladeburner.getCityChaos(bladeburner.getCity())) {
+            // city chaos
             return generals[1]
         } else{
             bladeburner.stopBladeburnerAction()
             return finish
         }
-    } else if (chances[0] != chances[1]) {
-        return generals[0]
-    }
+    } 
     // Operations remaining
     const count = bladeburner.getActionCountRemaining(type, name)
     if (0 >= count) {
