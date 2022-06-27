@@ -14,16 +14,23 @@ export async function main(ns) {
     const bladeburner = ns.bladeburner
     while (true) {
         const nowPoint = bladeburner.getSkillPoints()
-        var isUpgrade = false
+        var target = ""
+        var targetCost = Number.MAX_SAFE_INTEGER
         for (const skill of skills) {
             const name = skill[0]
             const now = bladeburner.getSkillLevel(name)
-            if (now < skill[1] && nowPoint >= bladeburner.getSkillUpgradeCost(name)) {
-                bladeburner.upgradeSkill(name)
-                isUpgrade = true
+            if (now < skill[1]) {
+                const cost = bladeburner.getSkillUpgradeCost(name)
+                if (nowPoint >= cost && targetCost > cost) {
+                    target = name
+                    targetCost = cost
+                }
             }
         }
-        if (!isUpgrade) {
+        if (!!target) {
+            bladeburner.upgradeSkill(target)
+            await ns.sleep(1000)
+        } else {
             await ns.sleep(60 * 1000)
         }
     }
