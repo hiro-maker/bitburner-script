@@ -61,6 +61,18 @@ const bladeburner = [
     [1, 3, 0, 20]
 ]
 
+
+/* hacknet+crime
+[
+{"id":101,"x":0,"y":1,"highestCharge":0,"numCharge":0,"rotation":3,"shape":[[true,true,true,true],[true,false,false,false]],"type":18,"power":1.1,"limit":99},
+{"id":28,"x":1,"y":0,"highestCharge":290,"numCharge":5716.317241379379,"rotation":2,"shape":[[false,false,true],[true,true,true]],"type":16,"power":2,"limit":1},
+{"id":21,"x":1,"y":2,"highestCharge":290,"numCharge":5716.317241379379,"rotation":2,"shape":[[true,true],[true,true]],"type":13,"power":2,"limit":1},
+{"id":20,"x":2,"y":4,"highestCharge":290,"numCharge":5714.365517241449,"rotation":2,"shape":[[true,true,true,true]],"type":12,"power":1,"limit":1},
+{"id":105,"x":2,"y":1,"highestCharge":0,"numCharge":0,"rotation":3,"shape":[[false,false,true],[false,true,true],[true,true,false]],"type":18,"power":1.1,"limit":99},
+{"id":101,"x":4,"y":0,"highestCharge":0,"numCharge":0,"rotation":1,"shape":[[true,true,true,true],[true,false,false,false]],"type":18,"power":1.1,"limit":99}
+]
+*/
+
 /* all.
 [
 {"id":0,"shape":[[false,true,true],[true,true,false]],"type":6,"power":1,"limit":1},
