@@ -11,11 +11,11 @@ export async function main(ns) {
      // Office API $50b
 
      const corp = ns.corporation
-     // Create Corp.
-     corp.createCorporation("MyCorp")
+     // // Create Corp.
+     // corp.createCorporation("MyCorp")
 
-     // Expand "Agriculture".
-     corp.expandIndustry(agriculture, agriculture)
+     // // Expand "Agriculture".
+     // corp.expandIndustry(agriculture, agriculture)
 
      // Unlock "Smart Supply"
      const smartSupply = "Smart Supply"
@@ -64,144 +64,144 @@ export async function main(ns) {
           for (const material of materials) {
                switch (material) {
                     case "Hardware":
-                         corp.buyMaterial(agriculture, cityName, material, 12.5)
+                         await corp.buyMaterial(agriculture, cityName, material, 12.5);
                          break
                     case "AI Cores":
-                         corp.buyMaterial(agriculture, cityName, material, 7.5)
+                         await corp.buyMaterial(agriculture, cityName, material, 7.5)
                          break
                     case "Real Estate":
-                         corp.buyMaterial(agriculture, cityName, material, 2700)
+                         await corp.buyMaterial(agriculture, cityName, material, 2700)
                          break
                }
           }
      }
-     await ns.sleep(1000);
+     await ns.sleep(10 * 1000);
      for (const cityName of cities) {
           for (const material of materials) {
-               corp.buyMaterial(agriculture, cityName, material, 0)
+               await corp.buyMaterial(agriculture, cityName, material, 0)
           }
      }
 
-     // check employees
-     var canPhase2 = false
-     while (true) {
-          for (const cityName of cities) {
-               const office = corp.getOffice(agriculture, cityName)
-               canPhase2 = 100 <= office.maxMor
-               if (canPhase2) {
-                    canPhase2 = 99 < office.maxHap
-               }
-               if (canPhase2) {
-                    canPhase2 = 99 < office.maxEne
-               }
-          }
-          if (canPhase2) {
-               break
-          } else {
-               await ns.sleep(5 * 1000)
-          }
-     }
+     // // TODO check employees
+     // var canPhase2 = false
+     // while (true) {
+     //      for (const cityName of cities) {
+     //           const office = corp.getOffice(agriculture, cityName)
+     //           canPhase2 = 100 <= office.maxMor
+     //           if (canPhase2) {
+     //                canPhase2 = 99 < office.maxHap
+     //           }
+     //           if (canPhase2) {
+     //                canPhase2 = 99 < office.maxEne
+     //           }
+     //      }
+     //      if (canPhase2) {
+     //           break
+     //      } else {
+     //           await ns.sleep(5 * 1000)
+     //      }
+     // }
 
-     // Find Investors
-     await corp.acceptInvestmentOffer()
+     // // Find Investors($210b)
+     // await corp.acceptInvestmentOffer()
 
-     // upgrade office size(9)
-     for (const cityName of cities) {
-          const size = 6
-          await corp.upgradeOfficeSize(agriculture, cityName, size)
-          for (var i = 0; i <= size; i++) {
-               const employee = await corp.hireEmployee(agriculture, cityName);
-               if (employee !== undefined) {
-                    var member = ""
-                    switch (i) {
-                         case 0:
-                         case 1:
-                         case 3:
-                         case 4:
-                              member = members[i]
-                              break
-                         case 2:
-                              member = members[i + 1]
-                              break
-                         case 5:
-                              member = members[i - 1]
-                              break
-                    }
-                    await corp.assignJob(agriculture, cityName, employee.name, member)
-               }
-          }
-     }
+     // // upgrade office size(9)
+     // for (const cityName of cities) {
+     //      const size = 6
+     //      await corp.upgradeOfficeSize(agriculture, cityName, size)
+     //      for (var i = 0; i <= size; i++) {
+     //           const employee = await corp.hireEmployee(agriculture, cityName);
+     //           if (employee !== undefined) {
+     //                var member = ""
+     //                switch (i) {
+     //                     case 0:
+     //                     case 1:
+     //                     case 3:
+     //                     case 4:
+     //                          member = members[i]
+     //                          break
+     //                     case 2:
+     //                          member = members[i + 1]
+     //                          break
+     //                     case 5:
+     //                          member = members[i - 1]
+     //                          break
+     //                }
+     //                await corp.assignJob(agriculture, cityName, employee.name, member)
+     //           }
+     //      }
+     // }
 
-     // upgrade Smart Factories and Smart Storage.
-     const smartUpgrads = ["Smart Factories", "Smart Storage"]
-     for (const upgrad of smartUpgrads) {
-          for (var i = 0; i <= 10; i++) {
-               corp.levelUpgrade(upgrad)
-          }
-     }
+     // // upgrade Smart Factories and Smart Storage.
+     // const smartUpgrads = ["Smart Factories", "Smart Storage"]
+     // for (const upgrad of smartUpgrads) {
+     //      for (var i = 0; i <= 10; i++) {
+     //           corp.levelUpgrade(upgrad)
+     //      }
+     // }
 
-     // Upgrade each office’s Storage to 2k(WarehouseAPI)
-     for (const cityName of cities) {
-          await corp.upgradeWarehouse(agriculture, cityName, 7)
-     }
+     // // Upgrade each office’s Storage to 2k(WarehouseAPI)
+     // for (const cityName of cities) {
+     //      await corp.upgradeWarehouse(agriculture, cityName, 7)
+     // }
 
-     // second buy material
-     for (const cityName of cities) {
-          for (const material of materials) {
-               switch (material) {
-                    case "Hardware":
-                         corp.buyMaterial(agriculture, cityName, material, 267.5)
-                         break
-                    case "Robots":
-                         corp.buyMaterial(agriculture, cityName, material, 9.6)
-                         break
-                    case "AI Cores":
-                         corp.buyMaterial(agriculture, cityName, material, 244.5)
-                         break
-                    case "Real Estate":
-                         corp.buyMaterial(agriculture, cityName, material, 11940)
-                         break
-               }
-          }
-     }
-     await ns.sleep(1000);
-     for (const cityName of cities) {
-          for (const material of materials) {
-               corp.buyMaterial(agriculture, cityName, material, 0)
-          }
-     }
+     // // second buy material
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           switch (material) {
+     //                case "Hardware":
+     //                     corp.buyMaterial(agriculture, cityName, material, 267.5)
+     //                     break
+     //                case "Robots":
+     //                     corp.buyMaterial(agriculture, cityName, material, 9.6)
+     //                     break
+     //                case "AI Cores":
+     //                     corp.buyMaterial(agriculture, cityName, material, 244.5)
+     //                     break
+     //                case "Real Estate":
+     //                     corp.buyMaterial(agriculture, cityName, material, 11940)
+     //                     break
+     //           }
+     //      }
+     // }
+     // await ns.sleep(1000);
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           corp.buyMaterial(agriculture, cityName, material, 0)
+     //      }
+     // }
 
-     // Find Investors
-     await corp.acceptInvestmentOffer()
+     // // Find Investors($5t)
+     // await corp.acceptInvestmentOffer()
 
-     // Upgrade each office’s Storage to 2k(WarehouseAPI)
-     for (const cityName of cities) {
-          await corp.upgradeWarehouse(agriculture, cityName, 9)
-     }
+     // // Upgrade each office’s Storage to 2k(WarehouseAPI)
+     // for (const cityName of cities) {
+     //      await corp.upgradeWarehouse(agriculture, cityName, 9)
+     // }
 
-     // final buy material
-     for (const cityName of cities) {
-          for (const material of materials) {
-               switch (material) {
-                    case "Hardware":
-                         corp.buyMaterial(agriculture, cityName, material, 650)
-                         break
-                    case "Robots":
-                         corp.buyMaterial(agriculture, cityName, material, 63)
-                         break
-                    case "AI Cores":
-                         corp.buyMaterial(agriculture, cityName, material, 375)
-                         break
-                    case "Real Estate":
-                         corp.buyMaterial(agriculture, cityName, material, 8400)
-                         break
-               }
-          }
-     }
-     await ns.sleep(1000);
-     for (const cityName of cities) {
-          for (const material of materials) {
-               corp.buyMaterial(agriculture, cityName, material, 0)
-          }
-     }
+     // // final buy material
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           switch (material) {
+     //                case "Hardware":
+     //                     corp.buyMaterial(agriculture, cityName, material, 650)
+     //                     break
+     //                case "Robots":
+     //                     corp.buyMaterial(agriculture, cityName, material, 63)
+     //                     break
+     //                case "AI Cores":
+     //                     corp.buyMaterial(agriculture, cityName, material, 375)
+     //                     break
+     //                case "Real Estate":
+     //                     corp.buyMaterial(agriculture, cityName, material, 8400)
+     //                     break
+     //           }
+     //      }
+     // }
+     // await ns.sleep(1000);
+     // for (const cityName of cities) {
+     //      for (const material of materials) {
+     //           corp.buyMaterial(agriculture, cityName, material, 0)
+     //      }
+     // }
 }
