@@ -11,6 +11,9 @@ export async function main(ns) {
      // Office API $50b
 
      const corp = ns.corporation
+     const isBonusTime = corp.getBonusTime() > 10 *1000
+     const waitTime = isBonusTime ? 1 : 10
+
      // // Create Corp.
      // corp.createCorporation("MyCorp")
 
@@ -75,7 +78,7 @@ export async function main(ns) {
                }
           }
      }
-     await ns.sleep(10 * 1000);
+     await ns.sleep(waitTime * 1000);
      for (const cityName of cities) {
           for (const material of materials) {
                await corp.buyMaterial(agriculture, cityName, material, 0)
@@ -150,21 +153,21 @@ export async function main(ns) {
      //      for (const material of materials) {
      //           switch (material) {
      //                case "Hardware":
-     //                     corp.buyMaterial(agriculture, cityName, material, 267.5)
+     //                     await corp.buyMaterial(agriculture, cityName, material, 267.5);
      //                     break
      //                case "Robots":
-     //                     corp.buyMaterial(agriculture, cityName, material, 9.6)
+     //                     await corp.buyMaterial(agriculture, cityName, material, 9.6);
      //                     break
      //                case "AI Cores":
-     //                     corp.buyMaterial(agriculture, cityName, material, 244.5)
+     //                     await corp.buyMaterial(agriculture, cityName, material, 244.5);
      //                     break
      //                case "Real Estate":
-     //                     corp.buyMaterial(agriculture, cityName, material, 11940)
+     //                     await corp.buyMaterial(agriculture, cityName, material, 11940);
      //                     break
      //           }
      //      }
      // }
-     // await ns.sleep(1000);
+     // await ns.sleep(waitTime * 1000);
      // for (const cityName of cities) {
      //      for (const material of materials) {
      //           corp.buyMaterial(agriculture, cityName, material, 0)
@@ -198,7 +201,7 @@ export async function main(ns) {
      //           }
      //      }
      // }
-     // await ns.sleep(1000);
+     // await ns.sleep(waitTime * 1000);
      // for (const cityName of cities) {
      //      for (const material of materials) {
      //           corp.buyMaterial(agriculture, cityName, material, 0)
