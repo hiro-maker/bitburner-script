@@ -1,3 +1,4 @@
+let factionServers = ["CSEC", "avmnite-02h", "I.I.I.I", "run4theh111z", "w0r1d_d43m0n"];
 let css = `<style id="scanCSS">
         .w  {white-space:nowrap}
         .sc {white-space:pre; color:#ccc; font:14px monospace; line-height: 16px; }
@@ -50,16 +51,23 @@ export let main = ns => {
         myHack = ns.getHackingLevel(),
         fName = x => {
             let server = serverInfo(x); // Costs 2 GB. If you can't don't need backdoor links, uncomment the alternate implementations below
-            let moneyAvailable = moneyFormat(server.moneyAvailable); // ns.getServerMoneyAvailable(x);
+            let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
             let reqHack = server.requiredHackingSkill; // ns.getServerRequiredHackingLevel(x);
             let numPort = server.numOpenPortsRequired; // ns.numOpenPortsRequired(x);
-            let rooted = server.hasAdminRights; // ns.hasRootAccess(x);
-            let shouldBackdoor = !server?.backdoorInstalled && reqHack <= myHack && x != 'home' && rooted && !server.purchasedByPlayer;
-            return `<span class="w" id="${x}">
-                <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(${reqHack})</span>
-                <span>${moneyAvailable}</span>
-                ${(shouldBackdoor ? '<span class="backdoor">[<a>backdoor</a>]</span>' : '')}
-                <span>(${numPort})</span>
+            // let nowSecurityLevel = server.hackDifficulty; // ns.getServerSecurityLevel(x);
+            // let hackMoney = ns.hackAnalyze(x)
+            let hackChance = ns.formulas.hacking.hackChance(server, ns.getPlayer())
+            let hackTime = ns.formulas.hacking.hackTime(server, ns.getPlayer())
+            let maxRam = server.maxRam
+            let rate = Math.floor(server.moneyAvailable / hackTime * hackChance)
+            let maxMoney = server.moneyMax
+            return `<span class="w" id="${x}">` +
+                `<a class="s${factionServers.includes(x) ? " f" : ""}${rooted ? " r" : ""}">${x}</a>
+                <span class="hack ${(reqHack <= myHack ? 'green' : 'red')}">(Hack:${reqHack})</span>
+                <span>Port:${numPort}</span>
+                <span>${rate == 0 ? '' : 'MaxRam:' + maxRam +'GB'}</span>
+                <span>${rate == 0 ? '' : 'HackRate:' + rate}</span>
+                <span>${rate == 0 ? '' : 'MaxMoney:' + moneyFormat(maxMoney)}</span>
             </span>`;
         };
     let addSc = (x = s[0], p1 = ["\n"], o = p1.join("") + fName(x)) => {

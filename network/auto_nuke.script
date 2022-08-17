@@ -4,7 +4,7 @@ while (true) {
 	if (target != null) {
 		print(target)
 		startNuke(target)
-		runScript(target)
+		runScript(target, true)
 	} else {
 		sleep(60 * 1000)
 	}
@@ -14,15 +14,24 @@ function getTargetServer(host, hackinglevel) {
 	var servers = scan(host)
 	var result
 	for (var index in servers) {
-		if (index == 0) {
+		if (index == 0 && host != "home") {
 			continue
 		}
 		print("--start--")
 		var target = servers[index]
+		if (target.startsWith("hacknet-node-")) {
+			print("is hacknet")
+			continue
+		}
 		var targetRequiredLevel = getServerRequiredHackingLevel(target)
 		print(target)
 		if (hasRootAccess(target)) {
-			print("hasRoot")
+			if (0 == getServerUsedRam(target)) {
+				print("can reboot")
+				runScript(target, false)
+			} else {
+				print("hasRoot")
+			}
 		} else if (targetRequiredLevel > hackinglevel) {
 			print("low hackinglevel")
 			if (targetRequiredLevel - hackinglevel > 100) {
@@ -84,23 +93,21 @@ function startNuke(target) {
 	//installBackdoor(target)
 }
 
-function runScript(target) {
-	var script1 = "early-hack-template.script"
-	var script2 = "hackloop.script"
+function runScript(target, isScp) {
+	var script = "/network/early-hack.js"
 
 	// scp script
-	scp(script1, target)
-	scp(script2, target)
+	if (isScp) {
+		scp(script, target)
+	}
 
-	// run script
-	exec(script2, target)
+	// run hack only script(option1 = host, option2 = hack only)
+	exec(script, target, 1, target, true)
 
-	var maxRam = getServerMaxRam(target)
-	var script1Ram = getScriptRam(script1)
-
-	var id = 0;
-	while (maxRam - getServerUsedRam(target) >= script1Ram) {
-		exec(script1, target, 1, id)
-		++id
+	var remainderRam = getServerMaxRam(target) - getServerUsedRam(target) - getScriptRam(getScriptName())
+	var scriptRam = getScriptRam(script)
+	var threads = remainderRam / scriptRam
+	if (threads > 0) {
+		exec(script, target, threads)
 	}
 }
