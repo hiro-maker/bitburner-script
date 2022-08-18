@@ -21,13 +21,13 @@ function refresh(ns, stocks, myStocks) {
     return corpus;
 }
 function buy(ns, stock, numShares) {
-    ns.stock.buy(stock.sym, numShares);
+    ns.stock.buyStock(stock.sym, numShares);
     ns.print(`Bought ${stock.sym} for ${format(numShares * stock.price)}`);
 }
 function sell(ns, stock, numShares) {
     let profit = numShares * (stock.price - stock.buyPrice) - 2 * commission;
     ns.print(`Sold ${stock.sym} for profit of ${format(profit)}`);
-    ns.stock.sell(stock.sym, numShares);
+    ns.stock.sellStock(stock.sym, numShares);
 }
 function format(num) {
     let symbols = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc"];

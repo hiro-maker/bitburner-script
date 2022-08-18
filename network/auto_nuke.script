@@ -98,7 +98,7 @@ function runScript(target, isScp) {
 
 	// scp script
 	if (isScp) {
-		scp(script, target)
+		scp(script, target, getHostname())
 	}
 
 	// run hack only script(option1 = host, option2 = hack only)
