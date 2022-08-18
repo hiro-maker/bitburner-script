@@ -1,6 +1,6 @@
 /** @param {NS} ns */
 export async function main(ns) {
-    const hasSF5 =  ns.getOwnedSourceFiles().filter(sourceFile => JSON.parse(JSON.stringify(sourceFile)).n == 5).length == 1;
+    const hasSF5 =  ns.singularity.getOwnedSourceFiles().filter(sourceFile => JSON.parse(JSON.stringify(sourceFile)).n == 5).length == 1;
     const isNode5 = ns.getPlayer().bitNodeN == 5
     if (!hasSF5 && !isNode5) {
         ns.tprint("can not getBitNodeMultipliers().")
