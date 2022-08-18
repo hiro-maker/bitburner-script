@@ -21,7 +21,7 @@ function refresh(ns, stocks, myStocks) {
     return corpus;
 }
 function buy(ns, stock, numShares) {
-    ns.stock.buy(stock.sym, numShares);
+    ns.stock.buyStock(stock.sym, numShares);
     ns.print(`Bought ${stock.sym} for ${format(numShares * stock.price)}`);
 }
 function sell(ns, stock, numShares) {
