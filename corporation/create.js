@@ -207,4 +207,16 @@ export async function main(ns) {
      //           corp.buyMaterial(agriculture, cityName, material, 0)
      //      }
      // }
+
+
+     /*
+     Hardware
+     125+2675+6500=9300
+     Robots
+     96+630=726
+     AI Cores
+     75+2445+3750=6270
+     Real Estate
+     27000+119400+84000=230400
+     */
 }
