@@ -7,17 +7,20 @@ export async function main(ns) {
 	while (true) {
 		corp = ns.corporation.getCorporation();
 		for (const division of corp.divisions.reverse()) {
+			if (division != "Tobacco") {
+				continue;
+			}
 			upgradeWarehouses(ns, division);
 			upgradeCorp(ns);
 			await hireEmployees(ns, division);
 			// newProduct(ns, division);
 			doResearch(ns, division);
 		}
-		if (corp.divisions.length < 2 && corp.numShares == corp.totalShares) {
-			if (corp.divisions[0].products.length > 2) {
-				await trickInvest(ns, corp.divisions[0]);
-			}
-		}
+		// if (corp.divisions.length < 2 && corp.numShares == corp.totalShares) {
+		// 	if (corp.divisions[0].products.length > 2) {
+		// 		await trickInvest(ns, corp.divisions[0]);
+		// 	}
+		// }
 		await ns.sleep(5000);
 	}
 }
@@ -75,16 +78,16 @@ async function hireEmployees(ns, division, productCity = "Sector-12") {
 }
 
 function upgradeWarehouses(ns, division) {
-	for (const city of cities) {
-		// check if warehouses are near max capacity and upgrade if needed
-		var cityWarehouse = ns.corporation.getWarehouse(division, city);
-		if (cityWarehouse.sizeUsed > 0.9 * cityWarehouse.size) {
-			if (ns.corporation.getCorporation().funds > ns.corporation.getUpgradeWarehouseCost(division, city)) {
-				ns.print(division + " Upgrade warehouse in " + city);
-				ns.corporation.upgradeWarehouse(division, city);
-			}
-		}
-	}
+	// for (const city of cities) {
+	// 	// check if warehouses are near max capacity and upgrade if needed
+	// 	var cityWarehouse = ns.corporation.getWarehouse(division, city);
+	// 	if (cityWarehouse.sizeUsed > 0.9 * cityWarehouse.size) {
+	// 		if (ns.corporation.getCorporation().funds > ns.corporation.getUpgradeWarehouseCost(division, city)) {
+	// 			ns.print(division + " Upgrade warehouse in " + city);
+	// 			ns.corporation.upgradeWarehouse(division, city);
+	// 		}
+	// 	}
+	// }
 	if (ns.corporation.getUpgradeLevel("Wilson Analytics") > 20) {
 		// Upgrade AdVert.Inc after a certain amount of Wilson Analytivs upgrades are available
 		if (ns.corporation.getCorporation().funds > (4 * ns.corporation.getHireAdVertCost(division))) {
