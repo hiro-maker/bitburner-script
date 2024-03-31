@@ -1,6 +1,9 @@
 /** @param {NS} ns */
 export async function main(ns) {
-    upgradeCorp(ns)
+	while (true) {
+		upgradeCorp(ns)
+		await ns.sleep(5000);
+	}
 }
 
 function upgradeCorp(ns) {
@@ -9,20 +12,20 @@ function upgradeCorp(ns) {
 		if (ns.corporation.getCorporation().funds > (upgrade.prio * ns.corporation.getUpgradeLevelCost(upgrade.name))) {
 			// those two upgrades ony make sense later once we can afford a bunch of them and already have some base marketing from DreamSense
 			if ((upgrade.name != "ABC SalesBots" && upgrade.name != "Wilson Analytics") || (ns.corporation.getUpgradeLevel("DreamSense") > 20)) {
-				ns.tprint("Upgrade " + upgrade.name + " to " + (ns.corporation.getUpgradeLevel(upgrade.name) + 1));
+				// ns.tprint("Upgrade " + upgrade.name + " to " + (ns.corporation.getUpgradeLevel(upgrade.name) + 1));
 				ns.corporation.levelUpgrade(upgrade.name);
 			}
 		}
 	}
-	if (!ns.corporation.hasUnlockUpgrade("Shady Accounting") && ns.corporation.getUnlockUpgradeCost("Shady Accounting") * 2 < ns.corporation.getCorporation().funds) {
-		ns.tprint("Unlock Shady Accounting")
+	if (!ns.corporation.hasUnlock("Shady Accounting") && ns.corporation.getUnlockCost("Shady Accounting") * 2 < ns.corporation.getCorporation().funds) {
+		// ns.tprint("Unlock Shady Accounting")
 		ns.corporation.unlockUpgrade("Shady Accounting");
 	}
-	else if (!ns.corporation.hasUnlockUpgrade("Government Partnership") && ns.corporation.getUnlockUpgradeCost("Government Partnership") * 2 < ns.corporation.getCorporation().funds) {
-		ns.tprint("Unlock Government Partnership")
+	else if (!ns.corporation.hasUnlock("Government Partnership") && ns.corporation.getUnlockCost("Government Partnership") * 2 < ns.corporation.getCorporation().funds) {
+		// ns.tprint("Unlock Government Partnership")
 		ns.corporation.unlockUpgrade("Government Partnership");
 	}
-    ns.tprint(ns.corporation.getCorporation().funds)
+    // ns.tprint(ns.corporation.getCorporation().funds)
 }
 
 const upgradeList = [
@@ -31,7 +34,7 @@ const upgradeList = [
 	{ prio: 2, name: "DreamSense" },
 	{ prio: 4, name: "ABC SalesBots" },
 	{ prio: 4, name: "Smart Factories" },
-	{ prio: 4, name: "Smart Storage" },
+	// { prio: 4, name: "Smart Storage" },
 	{ prio: 8, name: "Neural Accelerators" },
 	{ prio: 8, name: "Nuoptimal Nootropic Injector Implants" },
 	{ prio: 8, name: "FocusWires" },

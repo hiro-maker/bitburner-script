@@ -49,7 +49,7 @@ async function hireEmployees(ns, division, productCity = "Sector-12") {
 					await ns.corporation.setAutoJobAssignment(division, city, "Business", Math.ceil(employees / 5));
 					await ns.corporation.setAutoJobAssignment(division, city, "Management", Math.ceil(employees / 10));
 					var remainingEmployees = employees - (3 * Math.ceil(employees / 5) + Math.ceil(employees / 10));
-					await ns.corporation.setAutoJobAssignment(division, city, "Training", Math.ceil(remainingEmployees));
+					await ns.corporation.setAutoJobAssignment(division, city, "Intern", Math.ceil(remainingEmployees));
 				}
 				else {
 					await ns.corporation.setAutoJobAssignment(division, city, "Operations", Math.floor(employees / 10));
@@ -58,7 +58,7 @@ async function hireEmployees(ns, division, productCity = "Sector-12") {
 					await ns.corporation.setAutoJobAssignment(division, city, "Management", Math.ceil(employees / 100));
 					await ns.corporation.setAutoJobAssignment(division, city, "Research & Development", Math.ceil(employees / 2));
 					var remainingEmployees = employees - (Math.floor(employees / 5) + Math.floor(employees / 10) + 1 + Math.ceil(employees / 100) + Math.ceil(employees / 2));
-					await ns.corporation.setAutoJobAssignment(division, city, "Training", Math.floor(remainingEmployees));
+					await ns.corporation.setAutoJobAssignment(division, city, "Intern", Math.floor(remainingEmployees));
 				}
 			}
 			else {
